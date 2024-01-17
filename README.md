@@ -24,7 +24,7 @@ npm install -g run-script-cli
 ## 🚀 Usage
 
 ```bash
-rs
+nr
 
 # or
 npx run-script-cli

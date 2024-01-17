@@ -1,6 +1,6 @@
 {
   "name": "run-script-cli",
-  "version": "0.0.1",
+  "version": "0.0.7",
   "license": "MIT",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
@@ -17,7 +17,7 @@
   },
   "sideEffects": false,
   "bin": {
-    "rs": "./bin/cli.mjs"
+    "nr": "./bin/cli.mjs"
   },
   "files": [
     "bin",
@@ -27,7 +27,7 @@
   "scripts": {
     "build": "unbuild",
     "dev": "unbuild --stub",
-    "test:cli": "node ./dist/cli.mjs -w -p 1234 -c awesome",
+    "test:cli": "node ./dist/cli.mjs",
     "lint": "tsc --noEmit",
     "lint-es": "eslint --ext .ts,.tsx src --color",
     "start": "esno src/cli.ts",
@@ -44,6 +44,7 @@
     "@types/node": "^18.19.3",
     "bumpp": "^9.2.1",
     "esno": "^0.16.3",
+    "execa": "^8.0.1",
     "git-scm-hooks": "^0.0.7",
     "kleur": "^4.1.5",
     "prettier": "^3.1.1",
