@@ -4,7 +4,7 @@
 </p>
 
 <p align="center">
-  A script generates a commit message with a conventional commit format.
+  Run script auto-detect node_module manager npm, pnpm, yarn. bun
 </p>
 
 <p align="center">
