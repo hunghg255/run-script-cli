@@ -7,7 +7,7 @@ import { detectAgent } from '@skarab/detect-package-manager';
 import { execaCommand } from 'execa';
 // @ts-ignore
 import c from 'kleur';
-import { cancel, isCancel, select } from 'unprompts';
+import { cancel, isCancel, select, intro } from 'unprompts';
 
 import { getPackageJSON } from './fs';
 
@@ -58,18 +58,25 @@ export const startCli = async (cwd: string = process.cwd()) => {
     }
 
     if (agent.name === 'npm') {
+      intro(c.bold(c.green(`npm run ${scriptValue}\n`)));
+
       await execaCommand(`npm run ${scriptValue}`, { stdio: 'inherit', cwd });
     }
 
     if (agent.name === 'yarn') {
+      intro(c.bold(c.green(`yarn ${scriptValue}\n`)));
+
       await execaCommand(`yarn ${scriptValue}`, { stdio: 'inherit', cwd });
     }
 
     if (agent.name === 'pnpm') {
+      intro(c.bold(c.green(`pnpm ${scriptValue}\n`)));
       await execaCommand(`pnpm ${scriptValue}`, { stdio: 'inherit', cwd });
     }
 
     if (agent.name === 'bun') {
+      intro(c.bold(c.green(`bun run ${scriptValue}\n`)));
+
       await execaCommand(`bun run ${scriptValue}`, { stdio: 'inherit', cwd });
     }
   } catch {}
