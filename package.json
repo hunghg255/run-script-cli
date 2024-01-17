@@ -1,6 +1,6 @@
 {
   "name": "run-script-cli",
-  "version": "0.0.8",
+  "version": "0.0.11",
   "license": "MIT",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
@@ -17,7 +17,9 @@
   },
   "sideEffects": false,
   "bin": {
-    "nr": "./bin/cli.mjs"
+    "nr": "./bin/nr.mjs",
+    "ni": "./bin/ni.mjs",
+    "nu": "./bin/nu.mjs"
   },
   "files": [
     "bin",
@@ -30,7 +32,7 @@
     "test:cli": "node ./dist/cli.mjs",
     "lint": "tsc --noEmit",
     "lint-es": "eslint --ext .ts,.tsx src --color",
-    "start": "esno src/cli.ts",
+    "start": "esno src/nu.ts react",
     "test": "vitest",
     "verify-commit": "verify-commit-msg",
     "prepare": "git-scm-hooks",

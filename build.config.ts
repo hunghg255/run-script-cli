@@ -1,7 +1,7 @@
 import { defineBuildConfig } from 'unbuild';
 
 export default defineBuildConfig({
-  entries: ['src/cli'],
+  entries: ['src/nr', 'src/ni', 'src/nu'],
   clean: true,
   declaration: true,
 

@@ -21,13 +21,33 @@
 npm install -g run-script-cli
 ```
 
-## 🚀 Usage
+## 🚀 Commands
+
+- Run
 
 ```bash
+# Run script with select
 nr
 
-# or
-npx run-script-cli
+# Run script a specific script
+nr dev
+```
+
+- Install
+
+```bash
+# Install script
+ni
+
+# Install a package
+ni react
+```
+
+- Uninstall
+
+```bash
+# Uninstall script
+nu react
 ```
 
 ## Preview

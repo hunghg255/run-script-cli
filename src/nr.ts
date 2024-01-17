@@ -10,19 +10,14 @@ import c from 'kleur';
 import { cancel, isCancel, select, intro } from 'unprompts';
 
 import { getPackageJSON } from './fs';
+import { limitText } from './utils';
 
-function limitText(text: string, maxWidth: number) {
-  if (text.length <= maxWidth) {
-    return text;
-  }
-  return `${text.slice(0, maxWidth)}${c.dim('…')}`;
-}
-
-export const startCli = async (cwd: string = process.cwd()) => {
+export const niCli = async (cwd: string = process.cwd(), argv = process.argv) => {
   try {
     const pkg = getPackageJSON(cwd);
     const scripts = pkg.scripts || {};
     const scriptsInfo = pkg['scripts-info'] || {};
+    let scriptValue: string = '';
 
     const names = Object.entries(scripts) as [string, string][];
 
@@ -44,17 +39,32 @@ export const startCli = async (cwd: string = process.cwd()) => {
       return process.exit(0);
     }
 
-    const scriptValue = await select({
-      message: c.bgCyan(' Run script '),
-      options: raw.map((scriptItem) => ({
-        label: `${c.green(scriptItem.key)}: ${c.dim(limitText(scriptItem.description, 50))}`,
-        value: scriptItem.key,
-      })),
-    });
+    if (argv?.length > 2) {
+      scriptValue = argv.slice(2).join(' ');
+    } else {
+      scriptValue = (await select({
+        message: c.bgCyan(' Run script '),
+        options: raw.map((scriptItem) => ({
+          label: `${c.green(scriptItem.key)}: ${c.dim(limitText(scriptItem.description, 50))}`,
+          value: scriptItem.key,
+        })),
+      })) as string;
 
-    if (isCancel(scriptValue)) {
-      cancel('Run script cancelled');
-      return process.exit(0);
+      if (isCancel(scriptValue)) {
+        cancel('Run script cancelled');
+        return process.exit(0);
+      }
+    }
+
+    if (agent.name === 'bun') {
+      intro(c.bold(c.green(`bun run ${scriptValue}\n`)));
+
+      await execaCommand(`bun run ${scriptValue}`, { stdio: 'inherit', cwd });
+    }
+
+    if (agent.name === 'pnpm') {
+      intro(c.bold(c.green(`pnpm ${scriptValue}\n`)));
+      await execaCommand(`pnpm ${scriptValue}`, { stdio: 'inherit', cwd });
     }
 
     if (agent.name === 'npm') {
@@ -68,16 +78,7 @@ export const startCli = async (cwd: string = process.cwd()) => {
 
       await execaCommand(`yarn ${scriptValue}`, { stdio: 'inherit', cwd });
     }
-
-    if (agent.name === 'pnpm') {
-      intro(c.bold(c.green(`pnpm ${scriptValue}\n`)));
-      await execaCommand(`pnpm ${scriptValue}`, { stdio: 'inherit', cwd });
-    }
-
-    if (agent.name === 'bun') {
-      intro(c.bold(c.green(`bun run ${scriptValue}\n`)));
-
-      await execaCommand(`bun run ${scriptValue}`, { stdio: 'inherit', cwd });
-    }
   } catch {}
 };
+
+niCli();
