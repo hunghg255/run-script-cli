@@ -23,14 +23,17 @@ export const niCli = async (cwd: string = process.cwd(), argv = process.argv) =>
     }
 
     if (agent.name === 'bun') {
-      intro(c.bold(c.green(`bun add ${scriptValue}\n`)));
+      const cmd = scriptValue ? `bun add ${scriptValue}` : 'bun install';
+      intro(c.bold(c.green(`${cmd}\n`)));
 
-      await execaCommand(`bun add ${scriptValue}`, { stdio: 'inherit', cwd });
+      await execaCommand(`${cmd}`, { stdio: 'inherit', cwd });
     }
 
     if (agent.name === 'pnpm') {
-      intro(c.bold(c.green(`pnpm add ${scriptValue}\n`)));
-      await execaCommand(`pnpm add ${scriptValue}`, { stdio: 'inherit', cwd });
+      const cmd = scriptValue ? `pnpm add ${scriptValue}` : 'pnpm install';
+
+      intro(c.bold(c.green(`${cmd}\n`)));
+      await execaCommand(`${cmd}`, { stdio: 'inherit', cwd });
     }
 
     if (agent.name === 'npm') {
@@ -40,9 +43,11 @@ export const niCli = async (cwd: string = process.cwd(), argv = process.argv) =>
     }
 
     if (agent.name === 'yarn') {
-      intro(c.bold(c.green(`yarn add ${scriptValue}\n`)));
+      const cmd = scriptValue ? `yarn add ${scriptValue}` : 'yarn install';
 
-      await execaCommand(`yarn add ${scriptValue}`, { stdio: 'inherit', cwd });
+      intro(c.bold(c.green(`${cmd}\n`)));
+
+      await execaCommand(`${cmd}`, { stdio: 'inherit', cwd });
     }
   } catch {}
 };
