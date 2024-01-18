@@ -1,6 +1,6 @@
 {
   "name": "run-script-cli",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "license": "MIT",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
@@ -61,13 +61,23 @@
     "pre-commit": "npm run lint",
     "commit-msg": "npm run verify-commit"
   },
-  "keywords": [],
-  "homepage": "https://github.com/hunghg255/unbuild-package",
+  "keywords": [
+    "npm",
+    "yarn",
+    "pnpm",
+    "run",
+    "script",
+    "cli",
+    "nr",
+    "ni",
+    "nu"
+  ],
+  "homepage": "https://github.com/hunghg255/run-script-cli",
   "repository": {
     "type": "git",
-    "url": "https://github.com/hunghg255/unbuild-package"
+    "url": "https://github.com/hunghg255/run-script-cli"
   },
   "bugs": {
-    "url": "https://github.com/hunghg255/unbuild-package/issues"
+    "url": "https://github.com/hunghg255/run-script-cli/issues"
   }
 }
