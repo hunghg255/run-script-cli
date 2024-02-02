@@ -29,10 +29,10 @@
   "scripts": {
     "build": "unbuild",
     "dev": "unbuild --stub",
-    "test:cli": "node ./dist/cli.mjs",
+    "test:cli": "node ./dist/nr.cjs",
     "lint": "tsc --noEmit",
     "lint-es": "eslint --ext .ts,.tsx src --color",
-    "start": "esno src/nu.ts react",
+    "start": "esno src/nr.ts",
     "test": "vitest",
     "verify-commit": "verify-commit-msg",
     "prepare": "git-scm-hooks",

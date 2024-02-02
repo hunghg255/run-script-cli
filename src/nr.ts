@@ -10,10 +10,13 @@ import c from 'kleur';
 import { cancel, isCancel, select, intro } from 'unprompts';
 
 import { getPackageJSON } from './fs';
+import { dump, load } from './storage';
 import { limitText } from './utils';
 
 export const niCli = async (cwd: string = process.cwd(), argv = process.argv) => {
   try {
+    const storage = await load();
+
     const pkg = getPackageJSON(cwd);
     const scripts = pkg.scripts || {};
     const scriptsInfo = pkg['scripts-info'] || {};
@@ -42,18 +45,26 @@ export const niCli = async (cwd: string = process.cwd(), argv = process.argv) =>
     if (argv?.length > 2) {
       scriptValue = argv.slice(2).join(' ');
     } else {
+      const initialValue = storage.lastRunCommand;
+
       scriptValue = (await select({
         message: c.bgCyan(' Run script '),
         options: raw.map((scriptItem) => ({
           label: `${c.green(scriptItem.key)}: ${c.dim(limitText(scriptItem.description, 50))}`,
           value: scriptItem.key,
         })),
+        initialValue,
       })) as string;
 
       if (isCancel(scriptValue)) {
         cancel('Run script cancelled');
         return process.exit(0);
       }
+    }
+
+    if (storage.lastRunCommand !== scriptValue) {
+      storage.lastRunCommand = scriptValue;
+      dump();
     }
 
     if (agent.name === 'bun') {
