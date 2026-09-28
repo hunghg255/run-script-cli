@@ -4,7 +4,7 @@
 </p>
 
 <p align="center">
-  Run script auto-detect node_module manager npm, pnpm, yarn. bun
+  Run script auto-detect package manager: npm, yarn, pnpm, bun, upm
 </p>
 
 <p align="center">
@@ -21,6 +21,10 @@
 npm install -g run-script-cli
 ```
 
+## 🔍 Detection
+
+The package manager is detected from the `packageManager` field in `package.json`, then from lockfiles (`upm.lock`, `bun.lock(b)`, `pnpm-lock.yaml`, `yarn.lock`, `package-lock.json`), searching up from the current directory. If nothing is found you'll be asked to choose one.
+
 ## 🚀 Commands
 
 - Run
@@ -31,6 +35,9 @@ nr
 
 # Run script a specific script
 nr dev
+
+# Pass extra args to the script (`--` is added automatically for npm)
+nr dev --port 3000
 ```
 
 - Install

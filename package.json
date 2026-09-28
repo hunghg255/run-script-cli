@@ -42,7 +42,6 @@
   "author": "hunghg255",
   "devDependencies": {
     "@hunghg255/eslint-config-ts": "^0.0.8",
-    "@skarab/detect-package-manager": "^1.0.0",
     "@types/node": "^18.19.3",
     "bumpp": "^9.2.1",
     "esno": "^0.16.3",
@@ -65,6 +64,8 @@
     "npm",
     "yarn",
     "pnpm",
+    "bun",
+    "upm",
     "run",
     "script",
     "cli",
