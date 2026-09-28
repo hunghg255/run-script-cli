@@ -1,6 +1,6 @@
 {
   "name": "run-script-cli",
-  "version": "0.0.15",
+  "version": "0.0.17",
   "license": "MIT",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
@@ -39,7 +39,8 @@
     "verify-commit": "verify-commit-msg",
     "prepare": "git-scm-hooks",
     "changelog": "npx changeloggithub@latest --all true && git add CHANGELOG.md && git commit -m 'chore: update CHANGELOG.md'",
-    "release": "bumpp -r && npm run changelog"
+    "release": "bumpp -r && npm run changelog",
+    "prepublish": "pnpm run build"
   },
   "author": "hunghg255",
   "devDependencies": {
