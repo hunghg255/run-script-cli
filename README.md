@@ -15,22 +15,29 @@
   <a href="https://github.com/hunghg255/run-script-cli/blob/main/LICENSE" target="_blank" rel="noopener noreferrer"><img src="https://badgen.net/github/license/hunghg255/run-script-cli" alt="License" /></a>
 </p>
 
+## ✨ Features
+
+- 🔍 **Auto-detect** the package manager: `npm`, `yarn`, `pnpm`, `bun` and [`upm`](https://github.com/unjs/upm)
+- 🔎 **Search scripts** by name or description in an interactive picker
+- 🔁 **Rerun** the last script of a project with `nr -`
+- 🗂️ **Monorepo** support: pick a workspace package, then a script
+- 📝 **Script descriptions** shown in the picker
+- 🧩 Usable as a **library** too
+
 ## 📦 Installation
 
 ```bash
 npm install -g run-script-cli
 ```
 
-## 🔍 Detection
-
-The package manager is detected from the `packageManager` field in `package.json`, then from lockfiles (`upm.lock`, `bun.lock(b)`, `pnpm-lock.yaml`, `yarn.lock`, `package-lock.json`), searching up from the current directory. If nothing is found you'll be asked to choose one.
+Requires Node.js 18+.
 
 ## 🚀 Commands
 
-- Run
+### `nr` - run a script
 
 ```bash
-# Select a script to run (type to filter by name or description)
+# Pick a script to run (type to filter by name or description)
 nr
 
 # Run a specific script
@@ -41,42 +48,43 @@ nr dev --port 3000
 
 # Rerun the last script of this project
 nr -
-
-# Monorepo: select a workspace package, then a script
-nr -w
-nr -w build
+nr - --port 3000
 ```
 
-- Install
+The last script is remembered per project and preselected the next time you run `nr`.
+
+### `ni` - install
 
 ```bash
 # Install dependencies
 ni
 
-# Install a package
+# Add packages
 ni react
 ni -D vitest
 ```
 
-- Clean install (for CI)
+### `nci` - clean install
+
+Installs exactly what is in the lockfile, useful for CI.
 
 ```bash
-# npm ci / pnpm install --frozen-lockfile / ...
 nci
 ```
 
-- Uninstall
+### `nu` - uninstall
 
 ```bash
 nu react
 ```
 
-- Execute a package without installing it
+### `nlx` - execute a package without installing it
 
 ```bash
-# npx / pnpm dlx / bunx / upx
 nlx cowsay hello
 ```
+
+### Command mapping
 
 | Command      | npm                   | yarn                             | pnpm                             | bun                             | upm                             |
 | ------------ | --------------------- | -------------------------------- | -------------------------------- | ------------------------------- | ------------------------------- |
@@ -87,16 +95,91 @@ nlx cowsay hello
 | `nu react`   | `npm uninstall react` | `yarn remove react`              | `pnpm remove react`              | `bun remove react`              | `upm remove react`              |
 | `nlx cowsay` | `npx cowsay`          | `npx cowsay`                     | `pnpm dlx cowsay`                | `bunx cowsay`                   | `upx cowsay`                    |
 
+## 🔍 Package manager detection
+
+Starting from the current directory and walking up to the root, the first match wins:
+
+1. The `packageManager` field in `package.json` (e.g. `"packageManager": "pnpm@9.0.0"`)
+2. A lockfile:
+
+| Lockfile                                   | Package manager |
+| ------------------------------------------ | --------------- |
+| `upm.lock`                                 | upm             |
+| `bun.lock`, `bun.lockb`                    | bun             |
+| `pnpm-lock.yaml`                           | pnpm            |
+| `yarn.lock`                                | yarn            |
+| `package-lock.json`, `npm-shrinkwrap.json` | npm             |
+
+If nothing is found, you'll be asked to choose one.
+
+## 🗂️ Monorepo
+
+Use `-w` (or `--workspace`) to pick a workspace package first, then a script. The script runs inside that package's directory.
+
+```bash
+# Pick a package, then a script
+nr -w
+
+# Pick a package, then run its `build` script
+nr -w build
+```
+
+Workspaces are read from `pnpm-workspace.yaml` or the `workspaces` field in `package.json`. Patterns like `packages/*`, `packages/**` and `!packages/ignored` are supported.
+
+## 📝 Script descriptions
+
+By default the picker shows each script's command. You can show a description instead, in either of two ways:
+
+```jsonc
+{
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+  },
+  "scripts-info": {
+    "dev": "Start the dev server",
+    "build": "Build for production",
+  },
+}
+```
+
+```jsonc
+{
+  "scripts": {
+    "?dev": "Start the dev server",
+    "dev": "vite",
+  },
+}
+```
+
 ## 🧩 API
 
 ```ts
-import { detectAgent, getCommand } from 'run-script-cli';
+import { detectAgent, getCommand, findWorkspaceRoot, getWorkspacePackages } from 'run-script-cli';
 
-const agent = detectAgent(process.cwd()); // 'npm' | 'yarn' | 'pnpm' | 'bun' | 'upm' | undefined
+detectAgent(process.cwd()); // 'npm' | 'yarn' | 'pnpm' | 'bun' | 'upm' | undefined
+
 getCommand('pnpm', 'add', ['react']); // ['pnpm', 'add', 'react']
+getCommand('npm', 'run', ['dev', '--port', '3000']); // ['npm', 'run', 'dev', '--', '--port', '3000']
+
+const root = findWorkspaceRoot(process.cwd());
+if (root) {
+  getWorkspacePackages(root); // [{ name, dir, path }, ...]
+}
 ```
 
-## Preview
+Available commands for `getCommand`: `run`, `install`, `frozen`, `add`, `remove`, `execute`.
+
+## 🛠️ Development
+
+```bash
+pnpm install
+pnpm build   # build to dist/
+pnpm test    # run tests
+pnpm lint    # type check
+```
+
+## 👀 Preview
 
 <p align='center'>
   <img src="https://github.com/hunghg255/run-script-cli/blob/main/assets/demo.png?raw=true" alt='preview'>
