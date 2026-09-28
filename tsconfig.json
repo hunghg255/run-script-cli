@@ -9,18 +9,14 @@
     "verbatimModuleSyntax": false,
     "allowJs": true,
     "moduleDetection": "force",
-    "moduleResolution": "NodeNext",
+    "moduleResolution": "Bundler",
 
     /* Strictness */
     "strict": true,
     "noUncheckedIndexedAccess": true,
 
-    /* If transpiling with TypeScript: */
-    "module": "NodeNext",
-
-    /* If NOT transpiling with TypeScript: */
-    // "moduleResolution": "Bundler",
-    // "module": "ESNext",
+    /* Bundled with unbuild, not transpiled with TypeScript: */
+    "module": "ESNext",
     "noEmit": true,
 
     /* If your code runs in the DOM: */

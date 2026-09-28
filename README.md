@@ -30,31 +30,70 @@ The package manager is detected from the `packageManager` field in `package.json
 - Run
 
 ```bash
-# Run script with select
+# Select a script to run (type to filter by name or description)
 nr
 
-# Run script a specific script
+# Run a specific script
 nr dev
 
 # Pass extra args to the script (`--` is added automatically for npm)
 nr dev --port 3000
+
+# Rerun the last script of this project
+nr -
+
+# Monorepo: select a workspace package, then a script
+nr -w
+nr -w build
 ```
 
 - Install
 
 ```bash
-# Install script
+# Install dependencies
 ni
 
 # Install a package
 ni react
+ni -D vitest
+```
+
+- Clean install (for CI)
+
+```bash
+# npm ci / pnpm install --frozen-lockfile / ...
+nci
 ```
 
 - Uninstall
 
 ```bash
-# Uninstall script
 nu react
+```
+
+- Execute a package without installing it
+
+```bash
+# npx / pnpm dlx / bunx / upx
+nx cowsay hello
+```
+
+| Command     | npm                   | yarn                             | pnpm                             | bun                             | upm                             |
+| ----------- | --------------------- | -------------------------------- | -------------------------------- | ------------------------------- | ------------------------------- |
+| `nr dev`    | `npm run dev`         | `yarn run dev`                   | `pnpm run dev`                   | `bun run dev`                   | `upm run dev`                   |
+| `ni`        | `npm install`         | `yarn install`                   | `pnpm install`                   | `bun install`                   | `upm install`                   |
+| `ni react`  | `npm install react`   | `yarn add react`                 | `pnpm add react`                 | `bun add react`                 | `upm add react`                 |
+| `nci`       | `npm ci`              | `yarn install --frozen-lockfile` | `pnpm install --frozen-lockfile` | `bun install --frozen-lockfile` | `upm install --frozen-lockfile` |
+| `nu react`  | `npm uninstall react` | `yarn remove react`              | `pnpm remove react`              | `bun remove react`              | `upm remove react`              |
+| `nx cowsay` | `npx cowsay`          | `npx cowsay`                     | `pnpm dlx cowsay`                | `bunx cowsay`                   | `upx cowsay`                    |
+
+## 🧩 API
+
+```ts
+import { detectAgent, getCommand } from 'run-script-cli';
+
+const agent = detectAgent(process.cwd()); // 'npm' | 'yarn' | 'pnpm' | 'bun' | 'upm' | undefined
+getCommand('pnpm', 'add', ['react']); // ['pnpm', 'add', 'react']
 ```
 
 ## Preview

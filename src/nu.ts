@@ -1,8 +1,7 @@
 import process from 'node:process';
 
-// @ts-ignore
+import { intro } from '@clack/prompts';
 import c from 'kleur';
-import { intro } from 'unprompts';
 
 import { getCommand, resolveAgent, runCommand } from './agents';
 

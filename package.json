@@ -19,7 +19,9 @@
   "bin": {
     "nr": "./bin/nr.mjs",
     "ni": "./bin/ni.mjs",
-    "nu": "./bin/nu.mjs"
+    "nu": "./bin/nu.mjs",
+    "nx": "./bin/nx.mjs",
+    "nci": "./bin/nci.mjs"
   },
   "files": [
     "bin",
@@ -33,7 +35,7 @@
     "lint": "tsc --noEmit",
     "lint-es": "eslint --ext .ts,.tsx src --color",
     "start": "esno src/nr.ts",
-    "test": "vitest",
+    "test": "vitest run",
     "verify-commit": "verify-commit-msg",
     "prepare": "git-scm-hooks",
     "changelog": "npx changeloggithub@latest --all true && git add CHANGELOG.md && git commit -m 'chore: update CHANGELOG.md'",
@@ -41,6 +43,7 @@
   },
   "author": "hunghg255",
   "devDependencies": {
+    "@clack/prompts": "1.0.0",
     "@hunghg255/eslint-config-ts": "^0.0.8",
     "@types/node": "^18.19.3",
     "bumpp": "^9.2.1",
@@ -52,7 +55,6 @@
     "tslib": "^2.6.2",
     "typescript": "^5.3.3",
     "unbuild": "^2.0.0",
-    "unprompts": "^1.0.11",
     "verify-commit-msg": "^0.0.10",
     "vitest": "^0.34.6"
   },
@@ -71,7 +73,9 @@
     "cli",
     "nr",
     "ni",
-    "nu"
+    "nu",
+    "nx",
+    "nci"
   ],
   "homepage": "https://github.com/hunghg255/run-script-cli",
   "repository": {

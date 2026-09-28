@@ -3,17 +3,15 @@ import fs from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import process from 'node:process';
 
-// @ts-ignore
+import { cancel, intro, isCancel, select } from '@clack/prompts';
 import { execa } from 'execa';
-// @ts-ignore
 import c from 'kleur';
-import { cancel, intro, isCancel, select } from 'unprompts';
 
 export const AGENTS = ['npm', 'yarn', 'pnpm', 'bun', 'upm'] as const;
 
 export type Agent = (typeof AGENTS)[number];
 
-type Command = 'run' | 'install' | 'add' | 'remove';
+export type Command = 'run' | 'install' | 'frozen' | 'add' | 'remove' | 'execute';
 
 // Lockfiles checked in order, the first match wins.
 const LOCKS: [string, Agent][] = [
@@ -26,12 +24,48 @@ const LOCKS: [string, Agent][] = [
   ['npm-shrinkwrap.json', 'npm'],
 ];
 
+// First item is the binary, the rest are its arguments
 const COMMANDS: Record<Agent, Record<Command, string[]>> = {
-  npm: { run: ['run'], install: ['install'], add: ['install'], remove: ['uninstall'] },
-  yarn: { run: ['run'], install: ['install'], add: ['add'], remove: ['remove'] },
-  pnpm: { run: ['run'], install: ['install'], add: ['add'], remove: ['remove'] },
-  bun: { run: ['run'], install: ['install'], add: ['add'], remove: ['remove'] },
-  upm: { run: ['run'], install: ['install'], add: ['add'], remove: ['remove'] },
+  npm: {
+    run: ['npm', 'run'],
+    install: ['npm', 'install'],
+    frozen: ['npm', 'ci'],
+    add: ['npm', 'install'],
+    remove: ['npm', 'uninstall'],
+    execute: ['npx'],
+  },
+  yarn: {
+    run: ['yarn', 'run'],
+    install: ['yarn', 'install'],
+    frozen: ['yarn', 'install', '--frozen-lockfile'],
+    add: ['yarn', 'add'],
+    remove: ['yarn', 'remove'],
+    execute: ['npx'],
+  },
+  pnpm: {
+    run: ['pnpm', 'run'],
+    install: ['pnpm', 'install'],
+    frozen: ['pnpm', 'install', '--frozen-lockfile'],
+    add: ['pnpm', 'add'],
+    remove: ['pnpm', 'remove'],
+    execute: ['pnpm', 'dlx'],
+  },
+  bun: {
+    run: ['bun', 'run'],
+    install: ['bun', 'install'],
+    frozen: ['bun', 'install', '--frozen-lockfile'],
+    add: ['bun', 'add'],
+    remove: ['bun', 'remove'],
+    execute: ['bunx'],
+  },
+  upm: {
+    run: ['upm', 'run'],
+    install: ['upm', 'install'],
+    frozen: ['upm', 'install', '--frozen-lockfile'],
+    add: ['upm', 'add'],
+    remove: ['upm', 'remove'],
+    execute: ['upx'],
+  },
 };
 
 function isAgent(name: unknown): name is Agent {
@@ -111,10 +145,10 @@ export function getCommand(agent: Agent, command: Command, args: string[] = []):
 
   // npm treats `--flags` after the script name as its own options unless separated by `--`
   if (command === 'run' && agent === 'npm' && args.length > 1) {
-    return [agent, ...base, ...args.slice(0, 1), '--', ...args.slice(1)];
+    return [...base, ...args.slice(0, 1), '--', ...args.slice(1)];
   }
 
-  return [agent, ...base, ...args];
+  return [...base, ...args];
 }
 
 export async function runCommand(cmd: string[], cwd: string = process.cwd()) {
