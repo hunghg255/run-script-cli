@@ -7,8 +7,11 @@ import c from 'kleur';
 import { getCommand, resolveAgent, runCommand } from './agents';
 import { getPackageJSON } from './fs';
 import { dump, load } from './storage';
-import { limitText } from './utils';
+import { handleVersionFlag, limitText } from './utils';
 import { findWorkspaceRoot, getWorkspacePackages } from './workspaces';
+
+// Keep the list short so the search hint stays visible
+const MAX_ITEMS = 10;
 
 function includes(text: string, search: string) {
   return text.toLowerCase().includes(search.toLowerCase());
@@ -27,6 +30,7 @@ async function selectWorkspacePackage(cwd: string): Promise<string> {
 
   const dir = await autocomplete({
     message: c.bgCyan(' Select package '),
+    maxItems: MAX_ITEMS,
     options: packages.map((p) => ({
       label: `${c.green(p.name)} ${c.dim(p.path)}`,
       value: p.dir,
@@ -48,6 +52,7 @@ async function selectWorkspacePackage(cwd: string): Promise<string> {
 
 export const nrCli = async (cwd: string = process.cwd(), argv = process.argv) => {
   let args = argv.slice(2);
+  handleVersionFlag(args);
   let dir = cwd;
 
   if (args[0] === '-w' || args[0] === '--workspace') {
@@ -95,6 +100,7 @@ export const nrCli = async (cwd: string = process.cwd(), argv = process.argv) =>
 
     const scriptValue = await autocomplete({
       message: c.bgCyan(' Run script '),
+      maxItems: MAX_ITEMS,
       options: raw.map((scriptItem) => ({
         label: `${c.green(scriptItem.key)}: ${c.dim(limitText(scriptItem.description, 50))}`,
         value: scriptItem.key,

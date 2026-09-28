@@ -3,9 +3,11 @@ import process from 'node:process';
 import c from 'kleur';
 
 import { getCommand, resolveAgent, runCommand } from './agents';
+import { handleVersionFlag } from './utils';
 
 export const nlxCli = async (cwd: string = process.cwd(), argv = process.argv) => {
   const args = argv.slice(2);
+  handleVersionFlag(args);
 
   if (args.length === 0) {
     console.warn(c.yellow('Please enter a package name, e.g. nlx cowsay hello'));

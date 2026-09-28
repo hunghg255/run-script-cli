@@ -10,6 +10,7 @@
     "allowJs": true,
     "moduleDetection": "force",
     "moduleResolution": "Bundler",
+    "resolveJsonModule": true,
 
     /* Strictness */
     "strict": true,

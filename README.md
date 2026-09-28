@@ -53,6 +53,8 @@ nr - --port 3000
 
 The last script is remembered per project and preselected the next time you run `nr`.
 
+All commands accept `-v` / `--version` to print the installed version.
+
 ### `ni` - install
 
 ```bash
