@@ -2,11 +2,11 @@ name: CI
 on:
   push:
     branches:
-      - master
+      - main
 
   pull_request:
     branches:
-      - master
+      - main
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -22,4 +22,6 @@ jobs:
           node-version: 18.x
 
       - run: npm install
-      - run: npm run lint && npm run build
+      - run: npm run lint && npm run lint-es
+      - run: npm test
+      - run: npm run build
