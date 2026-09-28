@@ -4,11 +4,11 @@ import c from 'kleur';
 
 import { getCommand, resolveAgent, runCommand } from './agents';
 
-export const nxCli = async (cwd: string = process.cwd(), argv = process.argv) => {
+export const nlxCli = async (cwd: string = process.cwd(), argv = process.argv) => {
   const args = argv.slice(2);
 
   if (args.length === 0) {
-    console.warn(c.yellow('Please enter a package name, e.g. nx cowsay hello'));
+    console.warn(c.yellow('Please enter a package name, e.g. nlx cowsay hello'));
     return;
   }
 
@@ -17,4 +17,4 @@ export const nxCli = async (cwd: string = process.cwd(), argv = process.argv) =>
   await runCommand(getCommand(agent, 'execute', args), cwd);
 };
 
-nxCli();
+nlxCli();

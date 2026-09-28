@@ -75,17 +75,17 @@ nu react
 
 ```bash
 # npx / pnpm dlx / bunx / upx
-nx cowsay hello
+nlx cowsay hello
 ```
 
-| Command     | npm                   | yarn                             | pnpm                             | bun                             | upm                             |
-| ----------- | --------------------- | -------------------------------- | -------------------------------- | ------------------------------- | ------------------------------- |
-| `nr dev`    | `npm run dev`         | `yarn run dev`                   | `pnpm run dev`                   | `bun run dev`                   | `upm run dev`                   |
-| `ni`        | `npm install`         | `yarn install`                   | `pnpm install`                   | `bun install`                   | `upm install`                   |
-| `ni react`  | `npm install react`   | `yarn add react`                 | `pnpm add react`                 | `bun add react`                 | `upm add react`                 |
-| `nci`       | `npm ci`              | `yarn install --frozen-lockfile` | `pnpm install --frozen-lockfile` | `bun install --frozen-lockfile` | `upm install --frozen-lockfile` |
-| `nu react`  | `npm uninstall react` | `yarn remove react`              | `pnpm remove react`              | `bun remove react`              | `upm remove react`              |
-| `nx cowsay` | `npx cowsay`          | `npx cowsay`                     | `pnpm dlx cowsay`                | `bunx cowsay`                   | `upx cowsay`                    |
+| Command      | npm                   | yarn                             | pnpm                             | bun                             | upm                             |
+| ------------ | --------------------- | -------------------------------- | -------------------------------- | ------------------------------- | ------------------------------- |
+| `nr dev`     | `npm run dev`         | `yarn run dev`                   | `pnpm run dev`                   | `bun run dev`                   | `upm run dev`                   |
+| `ni`         | `npm install`         | `yarn install`                   | `pnpm install`                   | `bun install`                   | `upm install`                   |
+| `ni react`   | `npm install react`   | `yarn add react`                 | `pnpm add react`                 | `bun add react`                 | `upm add react`                 |
+| `nci`        | `npm ci`              | `yarn install --frozen-lockfile` | `pnpm install --frozen-lockfile` | `bun install --frozen-lockfile` | `upm install --frozen-lockfile` |
+| `nu react`   | `npm uninstall react` | `yarn remove react`              | `pnpm remove react`              | `bun remove react`              | `upm remove react`              |
+| `nlx cowsay` | `npx cowsay`          | `npx cowsay`                     | `pnpm dlx cowsay`                | `bunx cowsay`                   | `upx cowsay`                    |
 
 ## 🧩 API
 

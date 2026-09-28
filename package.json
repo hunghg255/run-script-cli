@@ -20,7 +20,7 @@
     "nr": "./bin/nr.mjs",
     "ni": "./bin/ni.mjs",
     "nu": "./bin/nu.mjs",
-    "nx": "./bin/nx.mjs",
+    "nlx": "./bin/nlx.mjs",
     "nci": "./bin/nci.mjs"
   },
   "files": [
@@ -74,7 +74,7 @@
     "nr",
     "ni",
     "nu",
-    "nx",
+    "nlx",
     "nci"
   ],
   "homepage": "https://github.com/hunghg255/run-script-cli",

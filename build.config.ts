@@ -1,7 +1,7 @@
 import { defineBuildConfig } from 'unbuild';
 
 export default defineBuildConfig({
-  entries: ['src/index', 'src/nr', 'src/ni', 'src/nu', 'src/nx', 'src/nci'],
+  entries: ['src/index', 'src/nr', 'src/ni', 'src/nu', 'src/nlx', 'src/nci'],
   clean: true,
   declaration: true,
 
